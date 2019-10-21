@@ -21,6 +21,19 @@ public class FlightSearchDaoImpl implements FlightSearchDao {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QFlight flight = QFlight.flight;
 
+        Optional<List<Flight>> flights = Optional.of(queryFactory.selectFrom(flight)
+                .where(flight.departureAirport.eq(queryParams.getDepartureAirport())
+                        .and(flight.arrivalAirport.eq(queryParams.getArrivalAirport()))
+                        .and(flight.dateDeparture.eq(queryParams.getDateDeparture()))
+                        .and(flight.dateArrival.eq(queryParams.getDateArrival()))
+                        .and(flight.currency.eq(queryParams.getCurrency()))
+                        .and(flight.numberOfPassangers.eq(queryParams.getNumberOfPassangers())))
+                .fetch());
+
+        if (flights != null  )
+
+
+        //dodati if ovdje i vratiti optional.empty kada je query prazan
         try {
             return Optional.of(queryFactory.selectFrom(flight)
                     .where(flight.departureAirport.eq(queryParams.getDepartureAirport())
