@@ -18,9 +18,6 @@ public class FlightService {
     @Autowired
     private FlightOffersApi flightOffersApi;
 
-    @Autowired
-    private FlightDao flightDao;
-
     public List<Flight> getFlights(QueryParams queryParams) {
         FlightOffers flightOffers = flightOffersApi.getFlightOffers(
                 queryParams.getDepartureAirport(),
@@ -47,8 +44,6 @@ public class FlightService {
                         item -> FlightOfferProcessor.offerProcessor(item, fareData, queryParams.getCurrency(), queryParams.getNumberOfPassangers())
                 )
         );
-        System.out.println("fareData " + fareData);
-        flightDao.saveAll(fareData);
 
         return fareData;
     }
