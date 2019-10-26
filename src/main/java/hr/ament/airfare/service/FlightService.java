@@ -17,6 +17,11 @@ public class FlightService {
     @Autowired
     private FlightOffersApi flightOffersApi;
 
+    public FlightService(FlightOffersApi flightOffersApi) {
+        this.flightOffersApi = flightOffersApi;
+    }
+
+
     public List<Flight> getFlights(QueryParams queryParams) {
         FlightOffers flightOffers = flightOffersApi.getFlightOffers(
                 queryParams.getDepartureAirport(),

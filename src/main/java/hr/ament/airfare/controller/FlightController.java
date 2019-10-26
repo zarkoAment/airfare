@@ -20,7 +20,7 @@ public class FlightController {
     @Autowired
     private FlightDao flightDao;
 
-    @GetMapping("/query")
+    @GetMapping("/")
     public String greetingForm(Model model) {
         model.addAttribute("queryParams", new QueryParams());
         return "index";
