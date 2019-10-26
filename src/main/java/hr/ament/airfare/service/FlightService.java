@@ -2,7 +2,6 @@ package hr.ament.airfare.service;
 
 import hr.ament.airfare.domain.Flight;
 import hr.ament.airfare.model.QueryParams;
-import hr.ament.airfare.repository.FlightDao;
 import hr.ament.swagairfare.client.api.FlightOffersApi;
 import hr.ament.swagairfare.client.model.FlightOffers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,9 @@ public class FlightService {
     public List<Flight> getFlights(QueryParams queryParams) {
         FlightOffers flightOffers = flightOffersApi.getFlightOffers(
                 queryParams.getDepartureAirport(),
-                queryParams.getArrivalAirport(),
+                queryParams.getReturnAirport(),
                 DateTimeUtils.toLocalDate(queryParams.getDateDeparture()),
-                DateTimeUtils.toLocalDate(queryParams.getDateArrival()),
+                DateTimeUtils.toLocalDate(queryParams.getReturnDate()),
                 null,
                 null,
                 queryParams.getNumberOfPassangers(),

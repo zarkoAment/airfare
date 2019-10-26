@@ -9,29 +9,46 @@ import org.threeten.bp.DateTimeUtils;
 
 import java.util.List;
 
+import static hr.ament.airfare.utils.Constants.*;
+
 public class FlightOfferProcessor {
 
     public static void offerProcessor(OfferItem offerItem, List<Flight> flightData, String currency, int passengerCount) {
         Flight fare = new Flight(passengerCount, currency, offerItem.getPrice().getTotal());
         flightData.add(fare);
-        offerItem.getServices().forEach(s -> serviceProcessor(s, fare));
+
+        departureServiceProcessor(offerItem.getServices().get(DEPARTURE), fare);
+        returnServiceProcessor(offerItem.getServices().get(RETURN), fare);
     }
 
-    private static void serviceProcessor(Service service, Flight fare) {
+    private static void returnServiceProcessor(Service service, Flight fare) {
         List<Segment> segments = service.getSegments();
-        //staviti svaki drugi, postaviti presjedanja u odlasku
-        fare.setNumberOfTransfersArrival(segments.size());
-        segmentProcessor(segments, fare);
+
+        fare.setNumberOfTransfersArrival(segments.size()-1);
+        returnSegmentProcessor(segments, fare);
     }
 
-    private static void segmentProcessor(List<Segment> segments, Flight fare) {
+    private static void departureServiceProcessor(Service service, Flight fare) {
+        List<Segment> segments = service.getSegments();
+        fare.setNumberOfTransfersDeparture(segments.size()-1);
+
+        departureSegmentProcessor(segments, fare);
+    }
+
+    private static void returnSegmentProcessor(List<Segment> segments, Flight fare) {
         if (segments != null && !segments.isEmpty()) {
-            FlightSegment departingSegment = segments.get(0).getFlightSegment();
-            FlightSegment arrivalSegment = segments.get(segments.size()-1).getFlightSegment();
-            fare.setDepartureAirport(departingSegment.getDeparture().getIataCode());
-            fare.setArrivalAirport(arrivalSegment.getArrival().getIataCode());
-            fare.setDateDeparture(DateTimeUtils.toDate(departingSegment.getDeparture().getAt().toInstant()));
-            fare.setDateArrival(DateTimeUtils.toDate(arrivalSegment.getArrival().getAt().toInstant()));
+            FlightSegment returnSegment = segments.get(FIRST_SEGMENT).getFlightSegment();
+
+            fare.setReturnAirport(returnSegment.getDeparture().getIataCode());
+            fare.setReturnDate(DateTimeUtils.toDate(returnSegment.getDeparture().getAt().toInstant()));
+        }
+    }
+
+    private static void departureSegmentProcessor(List<Segment> segments, Flight fare) {
+        if (segments != null && !segments.isEmpty()) {
+            FlightSegment departureSegment = segments.get(FIRST_SEGMENT).getFlightSegment();
+            fare.setDepartureAirport(departureSegment.getDeparture().getIataCode());
+            fare.setDateDeparture(DateTimeUtils.toDate(departureSegment.getArrival().getAt().toInstant()));
         }
     }
 }

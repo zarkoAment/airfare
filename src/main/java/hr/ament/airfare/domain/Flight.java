@@ -19,10 +19,10 @@ public class Flight {
     private String departureAirport;
 
     @Column (name = "FLIGHT_ARRIVAL_AIRPORT", length = 5)
-    private String arrivalAirport;
+    private String returnAirport;
 
-    @Column (name = "FLIGHT_DATE_ARRIVAL")
-    private Date dateArrival;
+    @Column (name = "FLIGHT_RETURN_DATE")
+    private Date returnDate;
 
     @Column (name = "FLIGHT_DATE_DEPARTURE")
     private Date dateDeparture;

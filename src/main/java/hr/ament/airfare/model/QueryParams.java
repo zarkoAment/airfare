@@ -8,12 +8,10 @@ import java.sql.Date;
 public class QueryParams {
 
     private String departureAirport;
-    private String arrivalAirport;
-    private Date dateArrival;
+    private String returnAirport;
+    private Date returnDate;
     private Date dateDeparture;
     private int numberOfPassangers;
     private String currency;
-
-
 
 }

@@ -115,56 +115,50 @@
 <body>
 <div > <strong><form action="#" th:action="@{/query}" th:object="${queryParams}" method="post" class="form-style-9">
         <ul>
-          <li>
-     <label for="departureAirport">Departure Airport</label>
-<!--    <input type="text" th:field="*{departureAirport}" id="departureAirport" placeholder="departureAirport">-->
-<!--    <span th:if="${#fields.hasErrors('departureAirport')}" th:errors="*{departureAirport}"></span>-->
-
-      <select th:field="*{departureAirport}" id="departureAirport" placeholder="departureAirport">
-          <option th:value="'ZAG'" th:text="Zagreb"></option>
-          <option th:value="'AMS'" th:text="Amsterdam"></option>
-      </select>
+            <li>
+                <label for="dateDeparture"><br>Datum polaska</label>
+                <input type="date" th:field="*{dateDeparture}" id="dateDeparture" placeholder="dateDeparture">
+                <span th:if="${#fields.hasErrors('dateDeparture')}" th:errors="*{dateDeparture}"></span>
+            </li>
+            <li>
+                <label for="returnDate"><br>Datum povratka</label>
+                <input type="date" th:field="*{returnDate}" id="returnDate" placeholder="returnDate">
+                <span th:if="${#fields.hasErrors('returnDate')}" th:errors="*{returnDate}"></span>
+            </li>
+            <li>
+                <label for="numberOfPassangers"><br> Broj putnika</label>
+                <input type="text" th:field="*{numberOfPassangers}" id="numberOfPassangers" placeholder="numberOfPassangers">
+                <span th:if="${#fields.hasErrors('numberOfPassangers')}" th:errors="*{numberOfPassangers}"></span>
+            </li>
+            <li>
+                <label for="departureAirport">Polazak:</label>
+                <select th:field="*{departureAirport}" id="departureAirport" placeholder="departureAirport">
+                    <option th:value="'ZAG'" th:text="Zagreb"></option>
+                    <option th:value="'AMS'" th:text="Amsterdam"></option>
+                    <option th:value="'TFN'" th:text="Tenerife"></option>
+                </select>
+            </li>
+            <li>
+                <label for="returnAirport"><br>Dolazak:</label>
+                <select th:field="*{returnAirport}" id="returnAirport" placeholder="returnAirport">
+                    <option th:value="'ZAG'" th:text="Zagreb"></option>
+                    <option th:value="'AMS'" th:text="Amsterdam"></option>
+                    <option th:value="'TFN'" th:text="Tenerife"></option>
+                </select>
           </li>
           <li>
-    <label for="arrivalAirport"><br>Arrival Airport</label>
-<!--    <input type="text" th:field="*{arrivalAirport}" id="arrivalAirport" placeholder="arrivalAirport">-->
-<!--    <span th:if="${#fields.hasErrors('arrivalAirport')}" th:errors="*{arrivalAirport}"></span>-->
-
-      <select th:field="*{arrivalAirport}" id="arrivalAirport" placeholder="arrivalAirport">
-          <option th:value="'ZAG'" th:text="Zagreb"></option>
-          <option th:value="'AMS'" th:text="Amsterdam"></option>
-      </select>
-          </li>
-          <li>
-      <label for="dateDeparture"><br>Date of Departure</label>
-    <input type="date" th:field="*{dateDeparture}" id="dateDeparture" placeholder="dateDeparture">
-    <span th:if="${#fields.hasErrors('dateDeparture')}" th:errors="*{dateDeparture}"></span>
-          </li>
-          <li>
-      <label for="dateArrival"><br>Date of Arrival</label>
-    <input type="date" th:field="*{dateArrival}" id="dateArrival" placeholder="dateArrival">
-    <span th:if="${#fields.hasErrors('dateArrival')}" th:errors="*{dateArrival}"></span>
-          </li>
-          <li>
-      <label for="numberOfPassangers"><br> Number Of Passangers</label>
-    <input type="text" th:field="*{numberOfPassangers}" id="numberOfPassangers" placeholder="numberOfPassangers">
-    <span th:if="${#fields.hasErrors('numberOfPassangers')}" th:errors="*{numberOfPassangers}"></span>
-          </li>
-          <li>
-      <label for="currency"><br>Currency</label>
-<!--    <input type="text" th:field="*{currency}" id="currency" placeholder="currency">-->
-<!--    <span th:if="${#fields.hasErrors('currency')}" th:errors="*{currency}"></span></p>-->
-      <select th:field="*{currency}" id="currency" placeholder="currency">
-          <option th:value="'USD'" th:text="USD"></option>
-          <option th:value="'EUR'" th:text="EUR"></option>
-          <option th:value="'HRK'" th:text="HRK"></option>
-      </select>
+                <label for="currency"><br>Valuta</label>
+                    <select th:field="*{currency}" id="currency" placeholder="currency">
+                        <option th:value="'USD'" th:text="USD"></option>
+                        <option th:value="'EUR'" th:text="EUR"></option>
+                    <option th:value="'HRK'" th:text="HRK"></option>
+                </select>
           </li>
           <li>
   <p><br>
     
     
-    <input type="submit" value="Search" >
+    <input type="submit" value="Pretraži" >
   </p>
         </ul>
     </form></strong>
@@ -173,26 +167,26 @@
 <div th:switch="${flights}">
     <h2 th:case="null">No flights yet!</h2>
     <div th:case="*">
-      <h2>Flights</h2>
+      <h2>Letovi</h2>
       <table id="flights">
             <thead>
             <tr>
-                <th>Departure Airport</th>
-                <th>Arrival Airport</th>
-                <th>Date of Departure</th>
-                <th>Date of Arrival</th>
-                <th>Number of transfers in arrival</th>
-                <th>Number of transfers in departure</th>
-                <th>Total Price</th>
-                <th>Currency</th>
+                <th>Polazak</th>
+                <th>Dolazak</th>
+                <th>Datum polaska</th>
+                <th>Datum povratka</th>
+                <th>Broj presjedanja u polasku</th>
+                <th>Broj presjedanja u dolasku</th>
+                <th>Ukupna cijena</th>
+                <th>Valuta</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="flight : ${flights}">
-                <td th:text="${flight.arrivalAirport}"></td>
                 <td th:text="${flight.departureAirport}"></td>
+                <td th:text="${flight.returnAirport}"></td>
                 <td th:text="${flight.dateDeparture}"></td>
-                <td th:text="${flight.dateArrival}"></td>
+                <td th:text="${flight.returnDate}"></td>
                 <td th:text="${flight.numberOfTransfersArrival}"></td>
                 <td th:text="${flight.numberOfTransfersDeparture}"></td>
                 <td th:text="${flight.sumOfPrice}"></td>

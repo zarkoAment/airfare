@@ -28,8 +28,7 @@ public class FlightController {
 
     @PostMapping("/query")
     public String queryFlights(@ModelAttribute QueryParams queryParams, Model model) {
-        model.addAttribute(
-                "flights",
+        model.addAttribute("flights",
                 flightDao.findFlights(queryParams)
                         .orElseGet(() -> fetchAndSave(queryParams)));
         return "index";
@@ -40,11 +39,4 @@ public class FlightController {
         flightDao.saveAll(flights);
         return flights;
     }
-
-    private void saveFlightData(List<Flight> flights) {
-        flightDao.saveAll(flights);
-        System.out.println(flightDao.findAll());
-    }
-
-
 }

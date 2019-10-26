@@ -14,7 +14,7 @@ public class AirFareIntegrationConfig {
         ApiClient apiClient = new ApiClient();
 
         OAuth airfareAuth = (OAuth) apiClient.getAuthentication("airfare_auth");
-        airfareAuth.setAccessToken("a6ux3fIH6DFxecRWBwsi0wzZaip6");
+        airfareAuth.setAccessToken("AZk3L4WHFsiq4rc5jWbPlWDg9zAJ");
 
         FlightOffersApi flightOffersApi = new FlightOffersApi();
         flightOffersApi.setApiClient(apiClient);
