@@ -1,17 +1,13 @@
 package hr.ament.airfare.controller;
 
-import com.opencsv.CSVReader;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.*;
 import hr.ament.airfare.domain.Flight;
 import hr.ament.airfare.model.Airport;
-import hr.ament.airfare.model.CsvAirport;
 import hr.ament.airfare.model.QueryParams;
 import hr.ament.airfare.repository.FlightDao;
 import hr.ament.airfare.service.FlightService;
-import hr.ament.airfare.utils.CsvReaderExamples;
 import hr.ament.airfare.utils.CsvTransfer;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +19,9 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Controller
 public class FlightController {
 
@@ -38,18 +34,19 @@ public class FlightController {
     @GetMapping("/")
     public String greetingForm(Model model) throws Exception {
         model.addAttribute("queryParams", new QueryParams());
-        System.out.println("csv==== " + namedColumnBeanExample());
-        System.out.println("readAllExample() " + readAllExample());
-        System.out.println("readAll === " + readAll(Files.newBufferedReader(Paths.get(
-                ClassLoader.getSystemResource("csv/airport.csv").toURI()))));
+        model.addAttribute("airports", beanBuilderExample(Paths.get(
+                ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
+
         return "index";
     }
 
     @PostMapping("/query")
-    public String queryFlights(@ModelAttribute QueryParams queryParams, Model model) {
+    public String queryFlights(@ModelAttribute QueryParams queryParams, Model model) throws Exception {
         model.addAttribute("flights",
                 flightDao.findFlights(queryParams)
                         .orElseGet(() -> fetchAndSave(queryParams)));
+        model.addAttribute("airports", beanBuilderExample(Paths.get(
+                ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
         return "index";
     }
 
@@ -59,13 +56,13 @@ public class FlightController {
         return flights;
     }
 
-    public List<CsvAirport> beanBuilderExample(Path path, Class clazz) throws Exception {
+    public List<Airport> beanBuilderExample(Path path, Class<Airport> clazz) throws Exception {
         CsvTransfer csvTransfer = new CsvTransfer();
-        ColumnPositionMappingStrategy ms = new ColumnPositionMappingStrategy();
+        MappingStrategy<Airport> ms = new HeaderColumnNameMappingStrategy<>();
         ms.setType(clazz);
 
         Reader reader = Files.newBufferedReader(path);
-        CsvToBean cb = new CsvToBeanBuilder(reader)
+        CsvToBean<Airport> cb = new CsvToBeanBuilder<Airport>(reader)
                 .withType(clazz)
                 .withSeparator(',')
                 .withMappingStrategy(ms)
@@ -74,29 +71,9 @@ public class FlightController {
         csvTransfer.setCsvList(cb.parse());
         reader.close();
 
-        Airport airport = (Airport) csvTransfer.getCsvList().get(2);
-        System.out.println("CsvAir ==== "+ airport.getAirportName());
+        List<Airport> airports = csvTransfer.getCsvList();
+        System.out.println("CsvAir ==== "+ airports);
+
         return csvTransfer.getCsvList();
-    }
-
-    public String namedColumnBeanExample() throws Exception {
-        Path path = Paths.get(
-                ClassLoader.getSystemResource("csv/airport.csv").toURI());
-        return beanBuilderExample(path, Airport.class).toString();
-    }
-
-    public List<String[]> readAll(Reader reader) throws Exception {
-        CSVReader csvReader = new CSVReader(reader);
-        List<String[]> list = new ArrayList<>();
-        list = csvReader.readAll();
-        reader.close();
-        csvReader.close();
-        return list;
-    }
-
-    public String readAllExample() throws Exception {
-        Reader reader = Files.newBufferedReader(Paths.get(
-                ClassLoader.getSystemResource("csv/airport.csv").toURI()));
-        return CsvReaderExamples.readAll(reader).get(2).toString();
     }
 }

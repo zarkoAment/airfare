@@ -15,3 +15,5 @@ public class QueryParams {
     private String currency;
 
 }
+
+

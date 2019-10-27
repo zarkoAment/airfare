@@ -1,6 +1,6 @@
 package hr.ament.airfare.utils;
 
-import hr.ament.airfare.model.CsvAirport;
+import hr.ament.airfare.model.Airport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class CsvTransfer {
 
     private List<String[]> csvStringList;
 
-    private List<CsvAirport> csvList;
+    private List<Airport> csvList;
 
     public CsvTransfer() {}
 
@@ -27,12 +27,12 @@ public class CsvTransfer {
         this.csvStringList = csvStringList;
     }
 
-    public void setCsvList(List<CsvAirport> csvList) {
+    public void setCsvList(List<Airport> csvList) {
         this.csvList = csvList;
     }
 
-    public List<CsvAirport> getCsvList() {
+    public List<Airport> getCsvList() {
         if (csvList != null) return csvList;
-        return new ArrayList<CsvAirport>();
+        return new ArrayList<Airport>();
     }
 }

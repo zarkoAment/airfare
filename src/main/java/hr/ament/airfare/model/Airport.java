@@ -2,7 +2,7 @@ package hr.ament.airfare.model;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class Airport extends CsvAirport{
+public class Airport {
 
     @CsvBindByName(column = "iata")
     private String iata;
