@@ -18,7 +18,6 @@ public class FlightSearchDaoImpl implements FlightSearchDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     public Optional<List<Flight>> findFlights(QueryParams queryParams) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QFlight flight = QFlight.flight;

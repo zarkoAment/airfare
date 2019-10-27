@@ -46,6 +46,7 @@ public class FlightController {
                         .orElseGet(() -> fetchAndSave(queryParams)));
         model.addAttribute("airports", airportBuilder(Paths.get(
                 ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
+        log.info("datum " + queryParams.getDateDeparture());
         return "index";
     }
 

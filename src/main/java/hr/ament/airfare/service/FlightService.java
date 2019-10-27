@@ -21,7 +21,6 @@ public class FlightService {
         this.flightOffersApi = flightOffersApi;
     }
 
-
     public List<Flight> getFlights(QueryParams queryParams) {
         FlightOffers flightOffers = flightOffersApi.getFlightOffers(
                 queryParams.getDepartureAirport(),
