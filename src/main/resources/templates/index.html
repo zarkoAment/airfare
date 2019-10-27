@@ -31,11 +31,6 @@
             </li>
             <li>
                 <label for="departureAirport">Polazak:</label>
-<!--                <select th:field="*{departureAirport}" id="departureAirport" >-->
-<!--                    <option th:value="'ZAG'" th:text="Zagreb"></option>-->
-<!--                    <option th:value="'AMS'" th:text="Amsterdam"></option>-->
-<!--                    <option th:value="'TFN'" th:text="Tenerife"></option>-->
-<!--                </select>-->
                 <select th:field="*{departureAirport}" id="departureAirport">
                     <option value=""> -- </option>
                     <option th:each="airport : ${airports}"
@@ -46,9 +41,10 @@
             <li>
                 <label for="returnAirport"><br>Dolazak:</label>
                 <select th:field="*{returnAirport}" id="returnAirport" >
-                    <option th:value="'ZAG'" th:text="Zagreb"></option>
-                    <option th:value="'AMS'" th:text="Amsterdam"></option>
-                    <option th:value="'TFN'" th:text="Tenerife"></option>
+                    <option value=""> -- </option>
+                    <option th:each="airport : ${airports}"
+                            th:value="${airport.getIata()}"
+                            th:utext="${airport.getAirportName()}"/>
                 </select>
           </li>
           <li>

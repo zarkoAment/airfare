@@ -34,9 +34,8 @@ public class FlightController {
     @GetMapping("/")
     public String greetingForm(Model model) throws Exception {
         model.addAttribute("queryParams", new QueryParams());
-        model.addAttribute("airports", beanBuilderExample(Paths.get(
+        model.addAttribute("airports", airportBuilder(Paths.get(
                 ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
-
         return "index";
     }
 
@@ -45,7 +44,7 @@ public class FlightController {
         model.addAttribute("flights",
                 flightDao.findFlights(queryParams)
                         .orElseGet(() -> fetchAndSave(queryParams)));
-        model.addAttribute("airports", beanBuilderExample(Paths.get(
+        model.addAttribute("airports", airportBuilder(Paths.get(
                 ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
         return "index";
     }
@@ -56,7 +55,7 @@ public class FlightController {
         return flights;
     }
 
-    public List<Airport> beanBuilderExample(Path path, Class<Airport> clazz) throws Exception {
+    public List<Airport> airportBuilder(Path path, Class<Airport> clazz) throws Exception {
         CsvTransfer csvTransfer = new CsvTransfer();
         MappingStrategy<Airport> ms = new HeaderColumnNameMappingStrategy<>();
         ms.setType(clazz);
@@ -70,9 +69,6 @@ public class FlightController {
 
         csvTransfer.setCsvList(cb.parse());
         reader.close();
-
-        List<Airport> airports = csvTransfer.getCsvList();
-        System.out.println("CsvAir ==== "+ airports);
 
         return csvTransfer.getCsvList();
     }

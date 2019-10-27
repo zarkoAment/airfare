@@ -10,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 @ConfigurationProperties(prefix = "oauth2")
 @Data
 public class AuthzConfig {
+
     private String clientId;
     private String secret;
+
 }
