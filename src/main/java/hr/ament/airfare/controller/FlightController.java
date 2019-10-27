@@ -46,7 +46,6 @@ public class FlightController {
                         .orElseGet(() -> fetchAndSave(queryParams)));
         model.addAttribute("airports", airportBuilder(Paths.get(
                 ClassLoader.getSystemResource("csv/airport.csv").toURI()),Airport.class));
-        log.info("datum " + queryParams.getDateDeparture());
         return "index";
     }
 
@@ -56,7 +55,7 @@ public class FlightController {
         return flights;
     }
 
-    public List<Airport> airportBuilder(Path path, Class<Airport> clazz) throws Exception {
+    private List<Airport> airportBuilder(Path path, Class<Airport> clazz) throws Exception {
         CsvTransfer csvTransfer = new CsvTransfer();
         MappingStrategy<Airport> ms = new HeaderColumnNameMappingStrategy<>();
         ms.setType(clazz);

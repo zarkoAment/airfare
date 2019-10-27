@@ -76,7 +76,7 @@ public class FlightServiceTest {
         queryParams = new QueryParams(DEPARTURE_AIRPORT,
                 RETURN_AIRPORT,
                 dateDeparture,
-                new Date(dateDeparture.getTime() + FIVE_DAYS),
+                dateReturn,
                 1,
                 CURRENCY_HRK );
     }
